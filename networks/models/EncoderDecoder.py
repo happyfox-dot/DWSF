@@ -14,12 +14,12 @@ class EncoderDecoder(nn.Module):
 	"""
 	A Sequential of Encoder-Noise-Decoder
 	"""
-	def __init__(self, H, W, message_length, noise_layers, blocks=4):
+	def __init__(self, H, W, message_length, noise_layers, blocks=4, use_moe=False, num_experts=4):
 		super(EncoderDecoder, self).__init__()
 
 		self.encoder = Encoder(H=H, W=W, message_length=message_length, encoder_blocks=blocks)
 		self.noise = Noise(noise_layers)
-		self.decoder = Decoder(message_length=message_length)
+		self.decoder = Decoder(message_length=message_length, use_moe=use_moe, num_experts=num_experts)
 
 	def forward(self, image, message):
 		encoded_image = self.encoder(image, message)
